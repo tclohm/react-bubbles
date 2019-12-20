@@ -21,7 +21,14 @@ const ColorList = ({ colors, updateColors }) => {
     // Make a put request to save your updated color
     // think about where will you get the id from...
     // where is is saved right now?
-    //authAxios.put(`/colors/`)
+    const editedColor = colors.filter(colour => colour.id === colorToEdit.id)[0];
+    const otherColors = colors.filter(colour => colour.id !== colorToEdit.id);
+    
+    authAxios().put(`/colors/${editedColor.id}`, colorToEdit)
+             .then(res => {
+              updateColors([...otherColors, colorToEdit])
+             })
+             .catch(err => console.log(err));
   };
 
   const deleteColor = color => {
