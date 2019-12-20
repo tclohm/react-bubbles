@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { authAxios } from "../utils/authAxios";
 
-const Login = () => {
+const Login = (props) => {
   // make a post request to retrieve a token from the api
   // when you have handled the token, navigate to the BubblePage route
   const [credentials, setCredentials] = useState({username: '', password: ''});
@@ -13,10 +13,11 @@ const Login = () => {
   	authAxios().post("/login", credentials)
   			   .then(res => {
   			   		setIsFetching(true);
-  			   		console.log(res)
-  			   })
+  			   		window.localStorage.setItem("bubbleToken", res.data.payload);
+  			   		props.history.push("/bubbles");
+   			   })
   			   .catch(err => {
-  			   	console.log(err)
+  			   	//console.log(err);
   			   	alert("an error occured");
   			   	setIsFetching(false);
   			   });
