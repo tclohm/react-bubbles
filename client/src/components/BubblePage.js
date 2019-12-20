@@ -12,13 +12,17 @@ const BubblePage = (props) => {
   const [fetching, isFetching] = useState(false);
 
   useEffect(() => {
-  	authAxios().get("/colors")
-  			 .then(res => {
-  			 	isFetching(true)
-  			 	setColorList(res.data)
-  			 	isFetching(false)
-  			 })
-  			 .catch(err => console.log(err))
+  	if(colorList.length === 0) {
+	  	authAxios().get("/colors")
+	  			 .then(res => {
+	  			 	isFetching(true)
+	  			 	setColorList(res.data)
+	  			 	isFetching(false)
+	  			 })
+	  			 .catch(err => console.log(err))
+  	} else {
+  		console.log("color list has something")
+  	}
   }, [colorList])
 
   return (
